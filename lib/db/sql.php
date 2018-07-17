@@ -49,7 +49,9 @@ class SQL {
 		//! Number of rows affected by query
 		$rows=0,
 		//! SQL log
-		$log;
+		$log,
+		//! SQL logger
+		$logger;
 
 	/**
 	*	Begin SQL transaction
@@ -267,6 +269,11 @@ class SQL {
 		}
 		if ($this->trans && $auto)
 			$this->commit();
+		if ($fw->DEBUG) {
+			if (!isset($this->logger)) $this->logger = new \Log(date('Y-m-d.\s\q\l'));
+			$this->logger->write($this->log);
+			$this->log='';
+		}
 		return $result;
 	}
 
