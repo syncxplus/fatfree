@@ -198,7 +198,7 @@ class Web extends Prefab {
 				fclose($dst);
 				fclose($src);
 			}
-			$base=basename($fw->URI);
+			$base=basename(urldecode($fw->URI));
 			$file=[
 				'name'=>$dir.
 					($slug && preg_match('/(.+?)(\.\w+)?$/',$base,$parts)?

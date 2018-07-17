@@ -33,14 +33,13 @@ class Log {
 	*	@param $text string
 	*	@param $format string
 	**/
-	function write($text,$format='r') {
+	function write($text,$format='c') {
 		$fw=Base::instance();
 		foreach (preg_split('/\r?\n|\r/',trim($text)) as $line)
 			$fw->write(
 				$this->file,
 				date($format).
-					(isset($_SERVER['REMOTE_ADDR'])?
-						(' ['.$_SERVER['REMOTE_ADDR'].']'):'').' '.
+					(' ['.$fw->ip().'] ').
 				trim($line).PHP_EOL,
 				TRUE
 			);

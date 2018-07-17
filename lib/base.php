@@ -1190,13 +1190,20 @@ final class Base extends Prefab implements ArrayAccess {
 	*	@return string
 	**/
 	function ip() {
+		if(function_exists('getenv')) {
+			if(getenv('Http_X_Forwarded_For')) {
+				return getenv('Http_X_Forwarded_For');
+			} else if(getenv('Http_X_Real_IP')) {
+				return getenv('Http_X_Real_IP');
+			}
+		}
 		$headers=$this->hive['HEADERS'];
 		return isset($headers['Client-IP'])?
 			$headers['Client-IP']:
 			(isset($headers['X-Forwarded-For'])?
 				explode(',',$headers['X-Forwarded-For'])[0]:
 				(isset($_SERVER['REMOTE_ADDR'])?
-					$_SERVER['REMOTE_ADDR']:''));
+					$_SERVER['REMOTE_ADDR']:PHP_SAPI));
 	}
 
 	/**
